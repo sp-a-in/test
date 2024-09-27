@@ -10,26 +10,26 @@ pipeline {
         stage('Build the image') {
             steps {
                 sh "ls ./mysite"
-                // sh "docker rmi -f \$(docker images -q) || true"
+                sh "docker rmi -f \$(docker images -q) || true"
                 sh "docker build -t myimage ./mysite/"
                 sh "docker images"
             }
         }
-        // stage('Pushing the image') {
-        //     steps {
-        //         echo 'Pushing....'
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
-        //             sh "docker tag myimage ${env.dockerUsername}/myimage"
-        //             sh "docker login -u ${env.dockerUsername} -p ${env.dockerPass}"
-        //             sh "docker push ${env.dockerUsername}/myimage"
-        //         }
-        //     }
-        // }
-        // stage('Running the container') {
-        //     steps {
-        //         echo 'Deploying....'
-        //         sh "docker run -d -p 8000:8000 myimage"
-        //     }
-        // }
+        stage('Pushing the image') {
+            steps {
+                echo 'Pushing....'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
+                    sh "docker tag myimage ${env.dockerUsername}/myimage"
+                    sh "docker login -u ${env.dockerUsername} -p ${env.dockerPass}"
+                    sh "docker push ${env.dockerUsername}/myimage"
+                }
+            }
+        }
+        stage('Running the container') {
+            steps {
+                echo 'Deploying....'
+                sh "docker run -d -p 8000:8000 myimage"
+            }
+        }
     }
 }
