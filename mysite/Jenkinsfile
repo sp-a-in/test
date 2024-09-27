@@ -14,6 +14,15 @@ pipeline {
                 sh "docker images"
             }
         }
+        stage('Pushing the image') {
+            steps {
+                echo 'Pushing....'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
+                    // sh "docker tag myimage madnuscodesen/myimage"
+                    sh "docker login -u ${env.dockerUsername} -p ${env.dockerUsername}"
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
