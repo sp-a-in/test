@@ -11,14 +11,15 @@ pipeline {
             steps {
                 sh "ls"
                 // sh "docker rmi -f \$(docker images -q) || true"
-                sh "sudo docker build -t myimage ./test/mysite/"
-                sh "docker images"
+
             }
         }
         stage('Pushing the image') {
             steps {
                 echo 'Pushing....'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
+                    sh "docker build -t myimage ./test/mysite/"
+                    sh "docker images"
                     sh "docker tag myimage ${env.dockerUsername}/myimage"
                     sh "docker login -u ${env.dockerUsername} -p ${env.dockerPass}"
                     sh "docker push ${env.dockerUsername}/myimage"
