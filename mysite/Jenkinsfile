@@ -19,7 +19,7 @@ pipeline {
                 echo 'Pushing....'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
                     // sh "docker tag myimage madnuscodesen/myimage"
-                    sh "docker login -u ${env.dockerUsername} -p ${env.dockerUsername}"
+                    sh "docker login -u ${env.dockerUsername} -p ${env.dockerPass}"
                 }
             }
         }
