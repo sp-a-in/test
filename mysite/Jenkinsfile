@@ -10,6 +10,7 @@ pipeline {
         stage('Build the image') {
             steps {
                 sh "ls"
+                sh "docker rmi $(docker images -q)"
                 sh "docker build -t myimage ./mysite/"
                 sh "docker images"
             }
@@ -18,14 +19,16 @@ pipeline {
             steps {
                 echo 'Pushing....'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
-                    // sh "docker tag myimage madnuscodesen/myimage"
+                    sh "docker tag myimage ${env.dockerUsername}/myimage"
                     sh "docker login -u ${env.dockerUsername} -p ${env.dockerPass}"
+                    sh "docker push ${env.dockerUsername}/myimage"
                 }
             }
         }
-        stage('Deploy') {
+        stage('Running the container') {
             steps {
                 echo 'Deploying....'
+                sh "docker run -d -p 8000:8000 myimage"
             }
         }
     }
