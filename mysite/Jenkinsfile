@@ -7,9 +7,10 @@ pipeline {
                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/sp-a-in/test.git'
             }
         }
-        stage('Test') {
+        stage('Build the image') {
             steps {
-                echo 'Testing..'
+                sh "cd mysite"
+                sh "ls"
             }
         }
         stage('Deploy') {
