@@ -10,8 +10,8 @@ pipeline {
         stage('Build the image') {
             steps {
                 sh "ls"
-                // sh "docker rmi $(docker images -q)"
-                sh "docker build -t myimage ./mysite/"
+                sh "docker rmi $(docker images -q)"
+                sh "docker build -t myimage ./test/mysite/"
                 sh "docker images"
             }
         }
