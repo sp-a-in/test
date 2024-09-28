@@ -1,3 +1,44 @@
+// pipeline {
+//     agent any
+
+//     stages {
+//         stage('Checkout branch') {
+//             steps {
+//                 git branch: 'main', credentialsId: 'github', url: 'https://github.com/sp-a-in/test.git'
+//             }
+//         }
+//         stage('Build the image') {
+//             steps {
+//                 sh "ls ./mysite"
+//                 sh "docker ps -a"
+//                 // Stop all running containers (if any)
+//                 sh "docker stop \$(docker ps -q) || true"
+//                 sh "docker rmi -f \$(docker images -q) || true"
+//                 sh "docker build -t myimage ./mysite/"
+//                 sh "docker images"
+//             }
+//         }
+//         stage('Pushing the image') {
+//             steps {
+//                 echo 'Pushing....'
+//                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerPass', usernameVariable: 'dockerUsername')]) {
+//                     sh "docker tag myimage ${env.dockerUsername}/myimage"
+//                     sh "docker login -u ${env.dockerUsername} -p ${env.dockerPass}"
+//                     sh "docker push ${env.dockerUsername}/myimage"
+//                 }
+//             }
+//         }
+//         stage('Running the container') {
+//             steps {
+//                 echo 'Deploying....'
+//                 sh "docker run -d -p 8000:8000 myimage"
+//             }
+//         }
+//     }
+// }
+
+
+
 pipeline {
     agent any
 
@@ -11,9 +52,6 @@ pipeline {
             steps {
                 sh "ls ./mysite"
                 sh "docker ps -a"
-                // Stop all running containers (if any)
-                sh "docker stop \$(docker ps -q) || true"
-                sh "docker rmi -f \$(docker images -q) || true"
                 sh "docker build -t myimage ./mysite/"
                 sh "docker images"
             }
