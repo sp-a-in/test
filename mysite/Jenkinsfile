@@ -10,7 +10,9 @@ pipeline {
         stage('Build the image') {
             steps {
                 sh "ls ./mysite"
-                sh "docker rm \$(docker ps -a -q) || true"
+                sh "docker ps -a"
+                // Stop all running containers (if any)
+                sh "docker stop \$(docker ps -q) || true"
                 sh "docker rmi -f \$(docker images -q) || true"
                 sh "docker build -t myimage ./mysite/"
                 sh "docker images"
