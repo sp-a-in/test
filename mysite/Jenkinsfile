@@ -70,7 +70,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 sh "ls"
-                sh "docker-compose -f mysite down && docker-compose -f mysite up -d"
+                sh "docker-compose -f mysite/docker-compose.yml down && docker-compose -f mysite/docker-compose.yml up -d"
             }
         }
     }
