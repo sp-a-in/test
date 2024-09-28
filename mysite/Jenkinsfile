@@ -69,6 +69,7 @@ pipeline {
         stage('Running the container') {
             steps {
                 echo 'Deploying....'
+                sh "ls"
                 sh "docker-compose -f mysite/ down && docker-compose -f mysite/ up -d"
             }
         }
