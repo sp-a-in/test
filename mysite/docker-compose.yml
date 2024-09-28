@@ -3,5 +3,5 @@ services:
   backend:
     image: "madnuscodesen/myimage:latest"
     ports:
-      -"8000:8000"
+      - "8000:8000"
 
