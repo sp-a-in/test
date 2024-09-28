@@ -69,7 +69,7 @@ pipeline {
         stage('Running the container') {
             steps {
                 echo 'Deploying....'
-                sh "docker run -d -p 8000:8000 myimage"
+                sh "docker-compose down && docker-compose up -d"
             }
         }
     }
