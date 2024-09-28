@@ -69,7 +69,7 @@ pipeline {
         stage('Running the container') {
             steps {
                 echo 'Deploying....'
-                sh "docker-compose -f ./mysite/ down && docker-compose -f ./mysite/ up -d"
+                sh "docker-compose -f mysite/ down && docker-compose -f mysite/ up -d"
             }
         }
     }
